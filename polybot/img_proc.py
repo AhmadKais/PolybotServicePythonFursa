@@ -1,3 +1,4 @@
+import random
 from pathlib import Path
 from matplotlib.image import imread, imsave
 
@@ -52,16 +53,56 @@ class Img:
 
     def rotate(self):
         # TODO remove the `raise` below, and write your implementation
-        raise NotImplementedError()
+        original_height = len(self.data)
+        original_width = len(self.data[0])
+
+        # Create a new list to hold the rotated image data
+        rotated_data = []
+
+        # Initialize the rotated_data with empty rows
+        for i in range(original_width):
+            rotated_data.append([0] * original_height)
+
+        # Fill in the rotated_data by rotating the image 90 degrees clockwise
+        for i in range(original_height):
+            for j in range(original_width):
+                rotated_data[j][original_height - 1 - i] = self.data[i][j]
+
+        # Update self.data with the rotated image
+        self.data = rotated_data
 
     def salt_n_pepper(self):
         # TODO remove the `raise` below, and write your implementation
-        raise NotImplementedError()
+        for i in range(len(self.data)):
+            for j in range(len(self.data[i])):
+                random_value = random.random()  # Generate a random number between 0 and 1
+                if random_value < 0.2:
+                    self.data[i][j] = 255  # Salt (white)
+                elif random_value > 0.8:
+                    self.data[i][j] = 0  # Pepper (black)
+                # If between 0.2 and 0.8, the pixel remains unchanged
 
     def concat(self, other_img, direction='horizontal'):
-        # TODO remove the `raise` below, and write your implementation
-        raise NotImplementedError()
+        # Check if both images have the same height
+        if len(self.data) != len(other_img.data):
+            raise RuntimeError("Images do not have the same height and cannot be concatenated.")
+
+        # Concatenate the images row by row manually
+        concatenated_data = []
+        for i in range(len(self.data)):
+            concatenated_data.append(self.data[i] + other_img.data[i])
+
+        # Update self.data with the concatenated image
+        self.data = concatenated_data
 
     def segment(self):
         # TODO remove the `raise` below, and write your implementation
-        raise NotImplementedError()
+        # Iterate over each row
+        for i in range(len(self.data)):
+            # Iterate over each pixel in the row
+            for j in range(len(self.data[i])):
+                # Replace pixel value based on intensity
+                if self.data[i][j] > 100:
+                    self.data[i][j] = 255  # White
+                else:
+                    self.data[i][j] = 0  # Black
