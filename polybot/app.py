@@ -22,6 +22,7 @@ def webhook():
 
 
 if __name__ == "__main__":
+    #adding this so that i can see the tests there might be a problem i cant pus any more 
     #bot = Bot(TELEGRAM_TOKEN, TELEGRAM_APP_URL)
     #bot = QuoteBot(TELEGRAM_TOKEN, TELEGRAM_APP_URL)
     bot = ImageProcessingBot(TELEGRAM_TOKEN, TELEGRAM_APP_URL)
